@@ -1,4 +1,4 @@
-Ordem;Família;Nomes científicos;Nomes populares;Status;FO;Altura;Planta que fornece frutos;AL
+Ordem;Família;Nomes científicos;Nomes populares;Status;FO;Altura;,;AL
 Anseriformes;Anatidae;Dendrocygna bicolor (Vieillot, 1816);marreca-caneleira;;45;;;I
 Anseriformes;Anatidae;Dendrocygna viduata (Linnaeus, 1766);irerê;;71;;;C
 Anseriformes;Anatidae;Dendrocygna autumnalis (Linnaeus, 1758);marreca-cabloca;;3;;;R
@@ -67,7 +67,7 @@ Coraciiformes;Alcedinidae;Megaceryle torquata (Linnaeus, 1766);;;26;;;I
 Coraciiformes;Alcedinidae;Chloroceryle amazona (Latham, 1790);;;10;;;R
 Coraciiformes;Alcedinidae;Chloroceryle americana (Gmelin, 1788);;;10;;;R
 Piciformes;Ramphastidae;Ramphastos dicolorus Linnaeus, 1766;;;75;;;M
-Piciformes;Ramphastidae;Picumnus temminckii Lafresnaye, 1845;;;90;;;M
+Piciformes;Ramphastidae;Picumnus temminckii (Lafresnaye, 1845);;;90;;;M
 Piciformes;Ramphastidae;Veniliornis spilogaster (Wagler, 1827);;;78;;;M
 Piciformes;Ramphastidae;Colaptes melanochloros (Gmelin, 1788);;;6;;;R
 Piciformes;Ramphastidae;Colaptes campestris (Vieillot, 1818);;;6;;;R
@@ -76,19 +76,19 @@ Piciformes;Ramphastidae;Dryocopus lineatus (Linnaeus, 1766);;;56;;;C
 Falconiformes;Falconidae;Caracara plancus (Miller, 1777);;;30;;;I
 Falconiformes;Falconidae;Milvago chimachima (Vieillot, 1816);;;20;;;I
 Falconiformes;Falconidae;Micrastur semitorquatus (Vieillot, 1817);;;10;;;R
-Falconiformes;Falconidae;Falco femoralis Temminck, 1822;;;4;;;R
-Falconiformes;Falconidae;Falco peregrinus Tunstall, 1771;;;1;;;O
+Falconiformes;Falconidae;Falco femoralis (Temminck, 1822);;;4;;;R
+Falconiformes;Falconidae;Falco peregrinus (Tunstall, 1771);;;1;;;O
 Psittaciformes;Psittacidae;Pyrrhura frontalis (Vieillot, 1817);;;87;;;M
 Psittaciformes;Psittacidae;Brotogeris tirica (Gmelin, 1788);;;93;;;M
 Psittaciformes;Psittacidae;Pionus maximiliani (Kuhl, 1820);;;7;;;R
 Psittaciformes;Psittacidae;Amazona aestiva (Linnaeus, 1758);;;56;;;C
-Passeriformes;Thamnophilidae;Thamnophilus caerulescens Vieillot, 1816;;;7;;;R
+Passeriformes;Thamnophilidae;Thamnophilus caerulescens (Vieillot, 1816);;;7;;;R
 Passeriformes;Conopophagidae;Conopophaga lineata (Wied, 1831);;;90;;;M
 Passeriformes;Dendrocolaptidae;Xiphorhynchus fuscus (Vieillot, 1818);;;22;;;I
 Passeriformes;Furnariidae;Furnarius rufus (Gmelin, 1788);;;23;;;I
 Passeriformes;Furnariidae;Certhiaxis cinnamomeus (Gmelin, 1788);;;;;;*
-Passeriformes;Furnariidae;Synallaxis ruficapilla Vieillot, 1819;;;84;;;M
-Passeriformes;Furnariidae;Synallaxis spixi Sclater, 1856;;;13;;;R
+Passeriformes;Furnariidae;Synallaxis ruficapilla (Vieillot, 1819);;;84;;;M
+Passeriformes;Furnariidae;Synallaxis spixi (Sclater, 1856);;;13;;;R
 Passeriformes;Furnariidae;Cranioleuca pallida (Wied, 1831);;;42;;;I
 Passeriformes;Tityridae;Tityra inquisitor (Lichtenstein, 1823);;;;;;*
 Passeriformes;Tityridae;Tityra cayana (Linnaeus, 1766);;;3;;;R
@@ -102,15 +102,15 @@ Passeriformes;Tyrannidae;Camptostoma obsoletum (Temminck, 1824);;;84;;;M
 Passeriformes;Tyrannidae;Elaenia flavogaster (Thunberg, 1822);;;3;;;R
 Passeriformes;Tyrannidae;Phyllomyias fasciatus (Thunberg, 1822);;;12;;;R
 Passeriformes;Tyrannidae;Legatus leucophaius (Vieillot, 1818);;;1;;;O
-Passeriformes;Tyrannidae;Myiarchus swainsoni Cabanis & Heine, 1859;;;14;;;R
+Passeriformes;Tyrannidae;Myiarchus swainsoni (Cabanis & Heine, 1859);;;14;;;R
 Passeriformes;Tyrannidae;Myiarchus ferox (Gmelin, 1789);;;1;;;O
 Passeriformes;Tyrannidae;Pitangus sulphuratus (Linnaeus, 1766);;;97;;;M
 Passeriformes;Tyrannidae;Machetornis rixosa (Vieillot, 1819);;;30;;;I
 Passeriformes;Tyrannidae;Myiodynastes maculatus (Statius Muller, 1776);;;29;;;I
 Passeriformes;Tyrannidae;Megarynchus pitangua (Linnaeus, 1766);;;65;;;C
 Passeriformes;Tyrannidae;Myiozetetes similis (Spix, 1825);;;72;;;C
-Passeriformes;Tyrannidae;Tyrannus melancholicus Vieillot, 1819;;;45;;;I
-Passeriformes;Tyrannidae;Tyrannus savana Daudin, 1802;;;9;;;R
+Passeriformes;Tyrannidae;Tyrannus melancholicus (Vieillot, 1819);;;45;;;I
+Passeriformes;Tyrannidae;Tyrannus savana (Daudin, 1802);;;9;;;R
 Passeriformes;Tyrannidae;Empidonomus varius (Vieillot, 1818);;;25;;;I
 Passeriformes;Tyrannidae;Fluvicola nengeta (Linnaeus, 1766);;;33;;;I
 Passeriformes;Tyrannidae;Lathrotriccus euleri (Cabanis, 1868);;;55;;;C
@@ -119,13 +119,13 @@ Passeriformes;Vireonidae;Vireo chivi (Vieillot, 1817);;;26;;;I
 Passeriformes;Corvidae;Cyanocorax chrysops (Vieillot, 1818);;;20;;;I
 Passeriformes;Hirundinidae;Pygochelidon cyanoleuca (Vieillot, 1817);;;23;;;I
 Passeriformes;Hirundinidae;Progne tapera (Vieillot, 1817);;;1;;;O
-Passeriformes;Troglodytidae;Troglodytes musculus Naumann, 1823;;;96;;;M
-Passeriformes;Turdidae;Turdus flavipes Vieillot, 1818;;;30;;;I
-Passeriformes;Turdidae;Turdus leucomelas Vieillot, 1818;;;91;;;M
-Passeriformes;Turdidae;Turdus rufiventris Vieillot, 1818;;;100;;;M
-Passeriformes;Turdidae;Turdus amaurochalinus Cabanis, 1850;;;20;;;I
+Passeriformes;Troglodytidae;Troglodytes musculus (Naumann, 1823);;;96;;;M
+Passeriformes;Turdidae;Turdus flavipes (Vieillot, 1818);;;30;;;I
+Passeriformes;Turdidae;Turdus leucomelas (Vieillot, 1818);;;91;;;M
+Passeriformes;Turdidae;Turdus rufiventris (Vieillot, 1818);;;100;;;M
+Passeriformes;Turdidae;Turdus amaurochalinus (Cabanis, 1850);;;20;;;I
 Passeriformes;Turdidae;Turdus subalaris (Seebohm, 1887);;;1;;;O
-Passeriformes;Turdidae;Turdus albicollis Vieillot, 1818;;;7;;;R
+Passeriformes;Turdidae;Turdus albicollis (Vieillot, 1818);;;7;;;R
 Passeriformes;Momidae;Mimus saturninus (Lichtenstein, 1823);;;1;;;O
 Passeriformes;Passerellidae;Zonotrichia capensis (Statius Muller, 1776);;;45;;;I
 Passeriformes;Parulidae;Setophaga pitiayumi (Vieillot, 1817);;;23;;;I
@@ -140,7 +140,7 @@ Passeriformes;Thraupidae;Tangara sayaca (Linnaeus, 1766);;;97;;;M
 Passeriformes;Thraupidae;Tangara palmarum (Wied, 1821);;;56;;;C
 Passeriformes;Thraupidae;Conirostrum speciosum (Temminck, 1824);;;17;;;I
 Passeriformes;Thraupidae;Sicalis flaveola (Linnaeus, 1766);;;3;;;R
-Passeriformes;Thraupidae;Haplospiza unicolor Cabanis, 1851;;;1;;;O
+Passeriformes;Thraupidae;Haplospiza unicolor (Cabanis, 1851);;;1;;;O
 Passeriformes;Thraupidae;Hemithraupis ruficapilla (Vieillot, 1818);;;10;;;R
 Passeriformes;Thraupidae;Trichothraupis melanops (Vieillot, 1818);;;55;;;C
 Passeriformes;Thraupidae;Tachyphonus coronatus (Vieillot, 1822);;;83;;;M
@@ -150,7 +150,7 @@ Passeriformes;Thraupidae;Tersina viridis (Illiger, 1811);;;4;;;R
 Passeriformes;Thraupidae;Dacnis cayana (Linnaeus, 1766);;;22;;;I
 Passeriformes;Thraupidae;Coereba flaveola (Linnaeus, 1758);;;91;;;M
 Passeriformes;Thraupidae;Sporophila caerulescens (Vieillot, 1823);;;3;;;R
-Passeriformes;Thraupidae;Saltator similis d’Orbigny & Lafresnaye, 1837;;;46;;;I
+Passeriformes;Thraupidae;Saltator similis (d’Orbigny & Lafresnaye, 1837);;;46;;;I
 Passeriformes;Thraupidae;Thlypopsis sordida (d’Orbigny & Lafresnaye, 1837);;;39;;;I
 Passeriformes;Fringillidae;Euphonia chlorotica (Linnaeus, 1766);;;43;;;I
 Passeriformes;Fringillidae;Euphonia violacea (Linnaeus, 1758);;;9;;;R

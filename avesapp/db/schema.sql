@@ -114,8 +114,8 @@ insert into classe values ( 1, 1, 'Aves' );
 insert into ordem values ( 1, 1, 'Anseriformes' );
 insert into familia values ( 1, 1, 'Anatidae' );
 
-insert into ave( familia_id, especie, autor, nome_popular, nome_ingles ) values
-( 1, 'Dendrocygna bicolor', 'Vieillot, 1816', 'Marreca-caneleira', 'Fulvous Whistling-Duck' );
+--insert into ave( familia_id, especie, autor, nome_popular, nome_ingles ) values
+--( 1, 'Dendrocygna bicolor', 'Vieillot, 1816', 'Marreca-caneleira', 'Fulvous Whistling-Duck' );
 --saída
 --sqlite> select * from ave_nome_cientifico;
 --id|genero|nome_especie|nome_cientifico|nome_autor
@@ -137,10 +137,10 @@ create view ave_classificacao as
 	      ave.nome_popular 		as nome_popular,
 	      ave.nome_ingles 		as nome_ingles
 	      from ave
-	      join familia on ave.familia_id=familia.id
-	      join ordem on familia.ordem_id=ordem.id
-	      join classe on ordem.classe_id=classe.id
-	      join filo on classe.filo_id=filo.id
-	      join reino on filo.reino_id=reino.id
-	      join ave_nome_cientifico av_cien on av_cien.id=ave.id;
+	      left join familia on ave.familia_id=familia.id
+	      left join ordem on familia.ordem_id=ordem.id
+	      left join classe on ordem.classe_id=classe.id
+	      left join filo on classe.filo_id=filo.id
+	      left join reino on filo.reino_id=reino.id
+	      left join ave_nome_cientifico av_cien on av_cien.id=ave.id;
 	      
