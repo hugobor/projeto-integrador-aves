@@ -2,6 +2,8 @@
 Cria o banco de dados em 'schema.sql' e carrega o conteúdo de avesPEFI.csv.
 """
 
+import os
+
 
 import csv
 import sqlite3
