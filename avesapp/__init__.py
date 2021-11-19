@@ -2,13 +2,16 @@ from flask import Flask, render_template
 
 import os
 
+
+DATABASE_PATH = 'aves_pi.db'
+
 ##https://flask.palletsprojects.com/en/2.0.x/patterns/appfactories/
 def create_app( test_config=None ):
     app = Flask( __name__, instance_relative_config=True )
 
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join( app.instance_path, 'aves_pi.db' ),
+        DATABASE=os.path.join( app.instance_path, DATABASE_PATH ),
     )
 
     if test_config is None:

@@ -125,7 +125,8 @@ insert into familia values ( 1, 1, 'Anatidae' );
 
 drop view if exists ave_classificacao;
 create view ave_classificacao as
-       select reino.nome  		as reino,
+       select ave.id                    as ave_id,
+              reino.nome  		as reino,
        	      filo.nome     		as filo,
 	      classe.nome    		as classe,
               ordem.nome     		as ordem,
