@@ -83,6 +83,10 @@ create table ave (
        frequencia_ocorrencia integer,
        abundancia_relativa integer,
 
+       thumbnail text,
+       
+       descricao text,
+
        foreign key( familia_id ) references familia( id )
        	       on delete cascade
 );
@@ -145,3 +149,26 @@ create view ave_classificacao as
 	      left join reino on filo.reino_id=reino.id
 	      left join ave_nome_cientifico av_cien on av_cien.id=ave.id;
 	      
+
+
+drop table if exists midia_tipo;
+create table midia_tipo (
+       id text primary key,
+       midia text not null unique
+);
+
+insert into midia_tipo values
+( 'I', 'Imagem' ),
+( 'V', 'Video' ),
+( 'A', 'Audio' );
+
+
+drop table if exists ave_midia;
+create table ave_midia (
+       id integer primary key,
+       ave_id integer,
+
+       arquivo_caminho text not null
+);
+drop index if exists idx_ave_midia_ave_id;
+create index idx_ave_midia_ave_id on ave_midia( ave_id );
