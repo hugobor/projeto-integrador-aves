@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ ave_class[ 'nome_cientifico' ] }}{% endblock %}
+
+{% block content %}
+<article class="card">
+  <section class="card-body">
+    {% if ave[ 'thumbnail' ] %}
+    <img src="{{ build_media_path( ave[ 'thumbnail' ]) }}" alt="{{ ave_class[ 'nome_comum' ] }}" class="card-img img-thumbnail float-start w-50 mx-3 mb-3">
+    {% endif %}
+    <h2 class="card-title">{{ ave_class[ 'nome_cientifico' ] }}</h2>
+    <h5 class="card-subtitle text-muted"><em>{{ ave_class[ 'autor' ] }}</em></h5>
+
+
+    <hr>
+    
+    <p class="card-text">Pipippfdoasfdf afdf adfs dsafadsf adfh dasfhadks fj</p>
+  </section>
+</article>
+
+{% endblock %}
+
+
