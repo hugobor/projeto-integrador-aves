@@ -65,6 +65,29 @@ drop index if exists idx_familia_nome;
 create index idx_familia_nome on ordem( nome );
 
 
+
+drop table if exists estado_iucn;
+create table estado_iucn (
+       cod text not null primary key,
+       nome_pt text not null,
+       nome_en text not null,
+       img text not null
+);
+
+
+--https://oeco.org.br/dicionario-ambiental/27904-entenda-a-classificacao-da-lista-vermelha-da-iucn/#comments
+insert into estado_iucn values
+( 'LC', 'Pouco Preocupante', 'Least Concern', '/static/iucn/LC.png' ),
+( 'NT', 'Quase Ameaçada', 'Near Threatened', '/static/iucn/NT.png' ),
+( 'VU', 'Vulnerável', 'Vulnerable', '/static/iucn/VU.png' ),
+( 'EN', 'Em Perigo', 'Endangered', '/static/iucn/EN.png' ),
+( 'CR', 'Criticamente em Perigo', 'Critically Endangered', '/static/iucn/CR.png' ),
+( 'EW', 'Extinta na Natureza', 'Extinct in The Wild', '/static/iucn/EW.png' ),
+( 'EX', 'Extinta', 'Extinct', '/static/iucn/EX.png' ),
+( 'DD', 'Dados Insuficientes', 'Data Deficient', '/static/iucn/DD.png' ),
+( 'NE', 'Não Avaliada', 'Not Evaluated', '/static/iucn/NE.png' );       
+
+
 drop table if exists ave;
 create table ave (
        id integer primary key,
@@ -76,6 +99,9 @@ create table ave (
 
        nome_popular text,
        nome_ingles text,
+       estado_iucn text,
+       estado_iucn_sp text,
+
        estado_conservacao text,
 
        altura decimal,
@@ -88,7 +114,11 @@ create table ave (
        descricao text,
 
        foreign key( familia_id ) references familia( id )
-       	       on delete cascade
+       	       on delete cascade,
+       foreign key( estado_iucn ) references estado_iucn( cod )
+               on delete set null,
+       foreign key( estado_iucn_sp ) references estado_iucn( cod )
+               on delete set null	       
 );
 drop index if exists idx_ave_especie;
 drop index if exists idx_ave_nome_popular;
@@ -168,7 +198,27 @@ create table ave_midia (
        id integer primary key,
        ave_id integer,
 
-       arquivo_caminho text not null
+       arquivo_caminho text not null,
+
+       foreign key ( ave_id ) references ave( id )
+              on delete cascade
 );
 drop index if exists idx_ave_midia_ave_id;
 create index idx_ave_midia_ave_id on ave_midia( ave_id );
+
+
+drop table if exists ave_descr;
+create table ave_descr (
+       id integer primary key,
+       sequ integer default 0,
+       
+       ave_id integer not null,
+
+       titulo text not null,
+       conteudo text not null,
+
+       foreign key ( ave_id )references ave( id )
+       	       on delete cascade
+);
+
+     

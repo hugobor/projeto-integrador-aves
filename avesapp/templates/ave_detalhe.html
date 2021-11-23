@@ -4,19 +4,108 @@
 
 {% block content %}
 <article class="card">
-  <section class="card-body">
+  <div class="row">
+
     {% if ave[ 'thumbnail' ] %}
-    <img src="{{ build_media_path( ave[ 'thumbnail' ]) }}" alt="{{ ave_class[ 'nome_comum' ] }}" class="card-img img-thumbnail float-start w-50 mx-3 mb-3">
+    <div class="col-md-6 p-3">
+
+      <img src="{{ build_media_path( ave[ 'thumbnail' ]) }}" alt="{{ ave_class[ 'nome_comum' ] }}" class="card-img img-thumbnail img-fluid float-start">
+    </div>
     {% endif %}
-    <h2 class="card-title">{{ ave_class[ 'nome_cientifico' ] }}</h2>
-    <h5 class="card-subtitle text-muted"><em>{{ ave_class[ 'autor' ] }}</em></h5>
-
-
-    <hr>
     
-    <p class="card-text">Pipippfdoasfdf afdf adfs dsafadsf adfh dasfhadks fj</p>
-  </section>
+    {% if ave[ 'thumbnail' ] %}
+    <div class="col-md-6">
+    {% else %}
+    <div class="col-md-12">
+    {% endif %}
+      
+      <section class="card-body">
+	
+	<h2 class="card-title">{{ ave_class[ 'nome_cientifico' ] }}</h2>
+	<h5 class="card-subtitle text-muted"><em>{{ ave_class[ 'autor' ] }}</em></h5>
+
+	{% if ave_class[ 'nome_popular' ] %}
+	<hr>
+
+	<h2 class="card-title">{{ ave_class[ 'nome_popular' ] }}</h2>
+	{% endif %}
+	
+
+	{% if ave_class[ 'nome_ingles' ] %}
+	<h5><strong>Nome em Inglês:</strong> {{ ave_class[ 'nome_ingles' ] }}</h5>
+	{% endif %}
+	
+
+	<hr>
+
+	<h2 class="card-title">Classificação Ciêntifica</h2>
+
+	<div class="table-responsive">
+	  <table class="table">
+	    <tr>
+	      <th scope="row">Reino:</th>
+	      
+	      <td>{{ ave_class[ 'reino' ] }}</td>
+	    </tr>
+
+	    <tr>
+	      <th scope="row">Filo:</th>
+	      
+	      <td>{{ ave_class[ 'filo' ] }}</td>
+	    </tr>
+
+	    <tr>
+	      <th scope="row">Classe:</th>
+	      
+	      <td>{{ ave_class[ 'classe' ] }}</td>
+	    </tr>	
+
+	    <tr>
+	      <th scope="row">Ordem:</th>
+	      
+	      <td>{{ ave_class[ 'ordem' ] }}</td>
+	    </tr>	
+
+	    <tr>
+	      <th scope="row">Família:</th>
+	      
+	      <td>{{ ave_class[ 'familia' ] }}</td>
+	    </tr>	
+
+	    <tr>
+	      <th scope="row">Subfamília:</th>
+	      
+	      <td>{{ ave_class[ 'subfamilia' ] }}</td>
+	    </tr>
+
+	    <tr>
+	      <th scope="row">Espécie:</th>
+	      
+	      <td>{{ ave_class[ 'especie' ] }}</td>
+	    </tr>
+
+	  </table>
+	</div>
+	
+      </section>
+    </div>
+    </div>
+
 </article>
+
+{% for descr in ave_descrs %}
+<article class="card my-3 p-3">
+  <div class="card-body">
+    <h2 class="card-title">{{ descr[ 'titulo' ] }}</h2>
+
+    <p>{{ descr[ 'conteudo' ] }}</p>
+    
+  </div>
+
+</article>
+{% endfor %}
+
+
 
 {% endblock %}
 

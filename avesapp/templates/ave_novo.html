@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block title %}Nova Ave{% endblock %}
+
+{% block content %}
+<form class="form form-horizontal" method="post" enctype="multipart/form-data">
+
+  <h3 class="mb-3">Classificação</h3>
+  <div class="mb-3">
+    <div class="row">
+
+      <div class="col-md-2">
+	<label for="nome-popular" class="form-label">Nome Popular</label>
+      </div>
+      <div class="col-md-10">
+	<input name="nome-popular" class="form-control">
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="row">
+
+      <div class="col-md-2">
+	<label for="nome-cientifico" class="form-label">Nome Científico</label>
+      </div>
+      
+      <div class="col-md-10">
+	<input name="nome-cientifico" class="form-control" required>
+      </div>
+      
+    </div>
+  </div>
+  
+
+  <div class="mb-3">
+    <div class="row">
+
+      <div class="col-md-2">
+	<label for="autor" class="form-label">Autor/autores do Nome</label>
+      </div>
+      <div class="col-md-10">
+	<input name="autor" class="form-control">
+      </div>
+      
+    </div>
+  </div>
+
+  
+
+
+  <div class="mb-3">
+    <div class="row">
+
+      <div class="col-md-2">
+	<label for="nome-ingles" class="form-label">Nome Inglês</label>
+      </div>
+      <div class="col-md-10">
+	<input name="nome-ingles" class="form-control">
+      </div>
+
+    </div>
+  </div>
+
+  
+  <div class="mb-3">
+    <div class="row">
+
+      <div class="col-md-2">
+	<label for="familia" class="form-label">Família</label>
+      </div>
+      <div class="col-md-10">
+	<input name="familia" class="form-control" list="familia-data-list">
+	<datalist id="familia-data-list">
+	  {% for f in familias %}
+	  <option value="{{ f[ 'nome' ] }}">
+	    {% endfor %}
+	</datalist>
+      </div>
+      
+    </div>
+  </div>
+
+
+  <hr>
+  <h3 class="mb-3">Mídia</h3>  
+
+  <div class="mb-3">
+    <div class="row">
+
+      <div class="col-md-2">
+	<label for="imagem-thumbnail" class="form-label" >Imagem de Capa</label>
+      </div>
+      <div class="col-md-10">
+	<input name="imagem-thumbnail" type="file" accept="image/*" class="form-control">
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="row">
+
+      <div class="col-md-2">
+	<label for="media" class="form-label">Midia Extra</label>
+      </div>
+      <div class="col-md-10">
+	<input name="media" type="file" accept="image/*,audio/*,video/*" class="form-control" multiple>
+      </div>
+  </div>
+
+  <hr>
+  <h3 class="mb-3">Estádo de Conservação</h3>
+  <div class="mb-3">
+    <div class="row">
+
+      <div class="col-md-2">
+	<label for="estado-iucn" class="form-label">Internacional</label>
+      </div>
+      <div class="col-md-10">
+	<select name="estado-iucn" class="form-select">
+	  <option selected value="NULL">&mdash;</option>
+	  {% for estado in estado_iucn %}
+	  <option value="{{ estado[ 'cod' ] }}">
+	    {{ estado[ 'cod' ] }} &mdash;
+	    {{ estado[ 'nome_pt' ] }} &mdash;
+	    <em>{{ estado[ 'nome_en' ] }}</em>
+	  </option>
+	  {% endfor %}
+	</select>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="row">
+
+      <div class="col-md-2">
+	<label for="estado-iucn-local" class="form-label">Em São Paulo</label>
+      </div>
+      <div class="col-md-10">
+	<select name="estado-iucn-local" class="form-select">
+	  <option selected value="NULL">&mdash;</option>
+	  {% for estado in estado_iucn %}
+	  <option value="{{ estado[ 'cod' ] }}">
+	    {{ estado[ 'cod' ] }} &mdash;
+	    {{ estado[ 'nome_pt' ] }} &mdash;
+	    <em>{{ estado[ 'nome_en' ] }}</em>
+	  </option>
+	  {% endfor %}
+	</select>
+      </div>
+
+    </div>
+  </div>
+  
+  
+  <hr>
+  <h3 class="mb-3">Frequências</h3>
+
+  <div class="mb-3">
+    <div class="row">
+
+      <div class="col-md-2"><label for="frequencia-ocorrencia" class="form-label">Frequência de Ocorrência</label>
+      </div>
+      <div class="col-md-10">
+	<input name="frequencia-ocorrencia" type="number" class="form-control">
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="row">  
+
+      <div class="col-md-2"><label for="abundancia-relativa" class="form-label">Abundância Relativa</label>
+      </div>
+      <div class="col-md-10">
+	<input name="abundancia-relativa" type="text" class="form-control">
+      </div>
+
+      
+      
+    </div>
+  </div>
+  
+
+  <hr>
+
+  <h3 class="mb-3">Descrições Extras</h3>
+  {% for i in range( 3 ) %}
+  <div class="mb-3">
+
+    <label for="descr-title-{{i}}" class="form-label">Título</label>
+    <input name="descr-title-{{i}}" type="text" class="form-control">
+  </div>
+
+  <div class="mb-3">
+    <textarea name="descr-content-{{i}}" type="text-area" class="form-control" style="height:120px">
+    </textarea>
+  </div>
+  {% endfor %}
+
+
+  <hr>
+
+
+  
+  
+
+
+
+  <button type="submit" class="btn btn-primary">Enviar</button>
+
+  
+</form>
+{% endblock %}
