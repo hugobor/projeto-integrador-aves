@@ -63,6 +63,7 @@ def ave_novo():
         if nome_cientifico is None:
             flash( 'Nome Científico nescessário.' )
 
+            
         familia_text = form.get( 'familia' )
         if familia_text == '':
             familia_id = None
@@ -73,7 +74,7 @@ def ave_novo():
                 query_db( 'insert into familia ( nome ) values ( ? );', ( familia_text, ))
                 familia_row = query_db(
                     'select * from familia where nome=? limit 1;', ( familia_text, ), fetchone=True )            
-                familia_id = familia_row[ 'id' ]
+            familia_id = familia_row[ 'id' ]
             
         db = get_db()
         db.execute(

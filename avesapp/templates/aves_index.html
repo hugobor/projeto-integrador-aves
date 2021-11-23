@@ -25,10 +25,10 @@
       <thead>
 	<tr>
 	  <th scope="col">Ordem</th>
-	  <th scope="col">Família</th>	
-	  <th scope="col">Nome da Espécie</th>
+	  <th scope="col">Família</th>		  
+	  <th scope="col">Espécie</th>
+	  <th scope="col">Nome Científico</th>	  
 	  <th scope="col">Nome Popular</th>
-	  <th scope="col">Nome Científico</th>
 	  <th scope="col">Estado de Conservação</th>
 	  <th scope="col">FO</th>
 	  <th scope="col">FA</th>
@@ -41,16 +41,17 @@
       <tbody>
 	{% for ave in aves %}
 	<tr class="ave-row" data-href="detalhe/{{ ave[ 'id' ] }}">
-	  <td>{{ ave[ 'nome_cientifico' ] }}</td>
+	  <td>{{ ave[ 'ordem' ] }}</td>
 	  <td>{{ ave[ 'familia' ] }}</td>
-	  <td>{{ ave[ 'especie' ] }}</td>
-	  <td>{{ ave[ 'nome_popular' ] }}</td>
+	  <td>{{ ave[ 'nome_cientifico' ] }}</td>
 	  <td>
 	    {{ ave[ 'nome_cientifico' ] }}
 	    {% if ave[ 'autor' ] %}
 	    <em>{{ ave[ 'autor' ] }}</em>
 	    {% endif %}
 	  </td>
+	  
+	  <td>{{ ave[ 'nome_popular' ] }}</td>
 	  <td>{{ ave[ 'estado_conservacao' ] }}</td>
 	  <td>{{ ave[ 'frequencia_ocorrencia' ] }}</td>
 	  <td>{{ ave[ 'abundancia_relativa' ] }}</td>
