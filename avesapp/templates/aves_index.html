@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block extra_header %}
-<style>
-  /* muda cursor para mostrar linhas clicáveis. */
-  .ave-row {
-      cursor: pointer;
-  };
-</style>
+
+<!-- DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
+
 {% endblock %}
 
 
@@ -17,54 +17,44 @@
   </div>
 </div>
 
-<article class="tabela-aves col">
+<article class="col">
 
   <!-- https://getbootstrap.com/docs/5.1/content/tables/ -->
   <div class="table-responsive-sm">
-    <table class="table table-bordered table-hover table-striped">
+    <table id="aves-tabela" class="table table-hover">
       <thead>
 	<tr>
+	  <th scope="col">Espécie</th>
 	  <th scope="col">Ordem</th>
 	  <th scope="col">Família</th>		  
-	  <th scope="col">Espécie</th>
-	  <th scope="col">Nome Científico</th>	  
 	  <th scope="col">Nome Popular</th>
-	  <th scope="col">Estado de Conservação</th>
-	  <th scope="col">FO</th>
-	  <th scope="col">FA</th>
-	  <th scope="col"></th>
-	  <th scope="col"></th>	  
-
+	  
+	  <th scope="col" data-orderable="false">Operações</th>
 	</tr>
       </thead>
 
       <tbody>
 	{% for ave in aves %}
 	<tr class="ave-row" data-href="detalhe/{{ ave[ 'id' ] }}">
+	  <td>{{ ave[ 'nome_cientifico' ] }}</td>	  
 	  <td>{{ ave[ 'ordem' ] }}</td>
 	  <td>{{ ave[ 'familia' ] }}</td>
-	  <td>{{ ave[ 'nome_cientifico' ] }}</td>
-	  <td>
-	    {{ ave[ 'nome_cientifico' ] }}
-	    {% if ave[ 'autor' ] %}
-	    <em>{{ ave[ 'autor' ] }}</em>
-	    {% endif %}
-	  </td>
-	  
-	  <td>{{ ave[ 'nome_popular' ] }}</td>
-	  <td>{{ ave[ 'estado_conservacao' ] }}</td>
-	  <td>{{ ave[ 'frequencia_ocorrencia' ] }}</td>
-	  <td>{{ ave[ 'abundancia_relativa' ] }}</td>
 
-	  <td class="edit-remove-btn">
-	    <a class="btn btn-primary" role="button" href="edit/{{ ave[ 'id' ] }}">
-	      <i class="bi bi-pencil"></i>
-	    </a>
-	  </td>
-	  <td class="edit-remove-btn">
-	    <a class="btn btn-danger" role="button" href="delete/{{ ave[ 'id' ] }}">
-	      <i class="bi bi-trash"></i>
-	    </a>
+	  <td>{{ ave[ 'nome_popular' ] }}</td>
+
+	  <td class="op-btn">
+	    
+	    <div class="btn-group">
+	      <a class="btn btn-info" role="button" alt="Detalhes" data-bs-toggle="tooltip" data-bs-original-title="Detalhes" href="detalhe/{{ ave[ 'id' ] }}">
+		<i class="bi bi-eye"></i>		
+	      </a>
+	      <a class="btn btn-warning" role="button" alt="Editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" href="edit/{{ ave[ 'id' ] }}">
+		<i class="bi bi-pencil"></i>
+	      </a>
+  	      <a class="btn btn-danger" role="button" alt="Remover" data-bs-toggle="tooltip" data-bs-original-title="Remover" href="edit/{{ ave[ 'id' ] }}">
+		<i class="bi bi-trash"></i>		
+	      </a>
+	    </div>
 	  </td>
 	  
 	</tr>
@@ -82,17 +72,41 @@
 
 
 {% block end_body_script %}
-<script>
-  //Torna as linhas clicaveis como links para página de detalhes da ave (atributo data-href)
-  const ave_rows = document.querySelectorAll( '.ave-row' )
-  ave_rows.forEach( ( row ) => {
-      const href = row.dataset.href;
 
-      //Não põe link nos botões de edição/remoção
-      const tds_click = row.querySelectorAll( 'td:not(.edit-remove-btn)' )
-      tds_click.forEach( ( td ) => {
-          td.addEventListener( 'click', () => window.location = href );
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<!-- DataTables -->
+
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+
+
+<script>
+
+  /**
+   * DataTables https://datatables.net/
+   * Ordenação e busca na tabela. :)
+   */
+  $( document ).ready( () => {
+      $( '#aves-tabela' ).DataTable( {
+	  language: {
+	      url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/pt_br.json',
+	  },
+	  //responsive não funciona direito misturado com bootstrap
+	  //responsive: true,
+	  select: 'os',	  
       });
   });
+
+
+  let tooltipTriggerList = [].slice.call( document.querySelectorAll('[data-bs-toggle="tooltip"]') );
+  let tooltipList = tooltipTriggerList.map( (tooltipTriggerEl) => {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+  });
+
+  
 </script>
 {% endblock %}
