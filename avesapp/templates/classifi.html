@@ -1,0 +1,20 @@
+{% from "_formhelper.html" import render_field %}
+
+{% extends 'base.html' %}
+
+
+{% block title %}
+Lista de Aves
+{% endblock %}
+
+
+{% block content %}
+<form method="post">
+  {{ render_field( form.ordem_id ) }}
+  {{ render_field( form.ordem ) }}
+
+  {{ render_field( form.familia_id ) }}  
+  {{ render_field( form.familia ) }}  
+</form>
+
+{% endblock %}

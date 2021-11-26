@@ -4,49 +4,10 @@ drop table if exists familia;
 
 
 --- Classificação Ciêntifica
-drop table if exists reino;
-create table reino (
-       id integer primary key,
-       nome text not null unique
-);
-drop index if exists idx_reino_nome;
-create index idx_reino_nome on reino( nome );
-
-
-drop table if exists filo;
-create table filo (
-       id integer primary key,
-       reino_id integer,
-       nome text not null unique,
-       
-       foreign key( reino_id ) references reino( id )
-       	       on delete cascade
-);
-drop index if exists idx_filo_nome;
-create index idx_filo_nome on filo( nome );
-
-
-drop table if exists classe;
-create table classe (
-       id integer primary key,
-       filo_id integer,
-       nome text not null unique,
-       
-       foreign key( filo_id ) references filo( id )
-       	       on delete cascade
-);
-drop index if exists idx_classe_nome;
-create index idx_classe_nome on classe( nome );
-
-
 drop table if exists ordem;
 create table ordem (
        id integer primary key,
-       classe_id integer,
-       nome text not null unique,
-
-       foreign key( classe_id ) references classe( id )
-       	       on delete cascade
+       nome text not null unique
 );
 drop index if exists idx_ordem_nome;
 create index idx_ordem_nome on ordem( nome );
@@ -142,10 +103,7 @@ select ave.id as id,
 
 
 --Testinho do patinho
-insert into reino values ( 1, 'Animalia' );
-insert into filo values ( 1, 1, 'Chordata' );
-insert into classe values ( 1, 1, 'Aves' );
-insert into ordem values ( 1, 1, 'Anseriformes' );
+insert into ordem values ( 1, 'Anseriformes' );
 insert into familia values ( 1, 1, 'Anatidae' );
 
 --insert into ave( familia_id, especie, autor, nome_popular, nome_ingles ) values
@@ -160,9 +118,6 @@ insert into familia values ( 1, 1, 'Anatidae' );
 drop view if exists ave_classificacao;
 create view ave_classificacao as
        select ave.id                    as ave_id,
-              reino.nome  		as reino,
-       	      filo.nome     		as filo,
-	      classe.nome    		as classe,
               ordem.nome     		as ordem,
   	      familia.nome   		as familia,
 	      av_cien.genero 		as subfamilia,
@@ -174,9 +129,6 @@ create view ave_classificacao as
 	      from ave
 	      left join familia on ave.familia_id=familia.id
 	      left join ordem on familia.ordem_id=ordem.id
-	      left join classe on ordem.classe_id=classe.id
-	      left join filo on classe.filo_id=filo.id
-	      left join reino on filo.reino_id=reino.id
 	      left join ave_nome_cientifico av_cien on av_cien.id=ave.id;
 	      
 

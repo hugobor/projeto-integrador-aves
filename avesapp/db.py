@@ -73,20 +73,13 @@ def read_avesPEFI( db ):
                 autor = nc_row[ autor_pos : ].replace( '(', '' ).replace( ')', '' )
                 nome_comp = f"{nome_cientifico} ({autor})"
 
-            #print( 'Nome cinetífico:', nome_cientifico, end='; ' )
-            #print( 'Autor:', autor, end='; ' )
-            #print( 'Nome comp:', nome_comp, end='; ' )
-            #print( )
-
-            #insere tudo em Aves
-            aves_classe_id = c.execute( "SELECT id FROM classe WHERE nome='Aves' LIMIT 1;" ).fetchone()[ 'id' ]
 
             # Seleciona ordem, insere se não existir
             ordem_nome = row[ 'Ordem' ].strip().capitalize()
             ordem_row = c.execute( "SELECT id FROM ordem WHERE nome=? LIMIT 1;", ( ordem_nome, )).fetchone()
             if ordem_row is None:
-                c.execute( "INSERT INTO ordem ( classe_id, nome ) VALUES ( ?, ? );",
-                           ( aves_classe_id, ordem_nome ))
+                c.execute( "INSERT INTO ordem (  nome ) VALUES ( ? );",
+                           ( ordem_nome ,))
                 con.commit()
                 ordem_row = c.execute( "SELECT id FROM ordem WHERE nome=? LIMIT 1;", ( ordem_nome, )).fetchone()
             ordem_id = ordem_row[ 'id' ]
@@ -138,3 +131,14 @@ def query_db( query, args=(), fetchone=False ):
         return None
 
     return r
+
+
+def dict_from_row(row):
+    """Transforma Sqlite3.Row em dicts."""
+    return dict(zip(row.keys(), row))
+
+def dict_from_query( qr ):
+    """Resultado de query_db como dict."""
+    if issubclass( type( qr ), list ):
+        return tuple( map( dict_from_row, qr ))
+    return dict_from_row( qr )

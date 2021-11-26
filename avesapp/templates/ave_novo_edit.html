@@ -1,0 +1,50 @@
+{% from "_formhelper.html" import render_field %}
+
+{% extends 'base.html' %}
+
+
+{% block title %}
+Lista de Aves
+{% endblock %}
+
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+  <h3 class="mb-3">Classificação</h3>
+  
+  {{ render_field( form.ave_id ) }}
+  {{ render_field( form.nome_cientifico ) }}
+
+  {{ render_field( form.autor ) }}  
+  {{ render_field( form.nome_ingles ) }}
+
+
+  {{ render_field( form.ordem_id ) }}
+  {{ render_field( form.ordem ) }}    
+  {{ render_field( form.familia_id ) }}
+  {{ render_field( form.familia ) }}
+  
+  <hr>
+  <h3 class="mb-3">Mídia</h3>  
+  {{ render_field( form.foto_capa ) }}
+  {{ render_field( form.midia_extra ) }}
+
+  <hr>
+  <h3 class="mb-3">Estádo de Conservação</h3>
+
+  {{ render_field( form.conserv_int ) }}
+  {{ render_field( form.conserv_loc ) }}
+
+  <hr>
+  <h3 class="mb-3">Frequências</h3>
+
+  {{ render_field( form.frequencia_ocorrencia ) }}
+  {{ render_field( form.abundancia_relativa ) }}
+
+  <fieldset class="d-flex justify-content-end">
+      <button class="btn btn-primary" type="submit">Salvar <i class="bi bi-save2"></i></button>
+  </fieldset>
+  
+</form>
+
+{% endblock %}

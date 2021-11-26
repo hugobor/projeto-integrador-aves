@@ -10,11 +10,21 @@
 {% endblock %}
 
 
+{% block title %}
+Lista de Aves
+{% endblock %}
+
+
 {% block content %}
 <div class="row pb-3">
   <div class="col-md-3">
-    <a class="btn btn-primary" href="novo">Novo <i class="bi bi-plus"></i></a>
+    <a class="btn btn-primary" href="{{ url_for( 'aves.ave_novo' ) }}">Novo <i class="bi bi-plus"></i></a>
   </div>
+
+  <div class="col-md-3">
+    <a class="btn btn-secondary" href="{{ url_for( 'aves.ave_classifi' ) }}">Ordens e Famílias<i class="bi bi-plus"></i></a>
+  </div>
+
 </div>
 
 <article class="col">
@@ -45,10 +55,10 @@
 	  <td class="op-btn">
 	    
 	    <div class="btn-group">
-	      <a class="btn btn-info" role="button" alt="Detalhes" data-bs-toggle="tooltip" data-bs-original-title="Detalhes" href="detalhe/{{ ave[ 'id' ] }}">
+	      <a class="btn btn-info" role="button" alt="Detalhes" data-bs-toggle="tooltip" data-bs-original-title="Detalhes" href="{{ url_for( 'aves.ave_detalhe', ave_id=ave[ 'id' ] ) }}">
 		<i class="bi bi-eye"></i>		
 	      </a>
-	      <a class="btn btn-warning" role="button" alt="Editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" href="edit/{{ ave[ 'id' ] }}">
+	      <a class="btn btn-warning" role="button" alt="Editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" href="{{ url_for( 'aves.ave_edit', ave_id=ave[ 'id' ] ) }}">
 		<i class="bi bi-pencil"></i>
 	      </a>
   	      <a class="btn btn-danger" role="button" alt="Remover" data-bs-toggle="tooltip" data-bs-original-title="Remover" href="edit/{{ ave[ 'id' ] }}">
