@@ -61,7 +61,7 @@ Lista de Aves
 	      <a class="btn btn-warning" role="button" alt="Editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" href="{{ url_for( 'aves.ave_edit', ave_id=ave[ 'id' ] ) }}">
 		<i class="bi bi-pencil"></i>
 	      </a>
-  	      <a class="btn btn-danger" role="button" alt="Remover" data-bs-toggle="tooltip" data-bs-original-title="Remover" href="edit/{{ ave[ 'id' ] }}">
+  	      <a class="btn btn-danger rem-btn" data-ave-nome="{{ ave['especie'] }}" role="button" alt="Remover" data-bs-toggle="tooltip" data-bs-original-title="Remover" href="{{ url_for( 'aves.ave_remove', ave_id=ave[ 'id' ] ) }}">
 		<i class="bi bi-trash"></i>		
 	      </a>
 	    </div>
@@ -107,7 +107,6 @@ Lista de Aves
 	  },
 	  //responsive não funciona direito misturado com bootstrap
 	  //responsive: true,
-	  select: 'os',	  
       });
   });
 
@@ -116,6 +115,13 @@ Lista de Aves
   let tooltipList = tooltipTriggerList.map( (tooltipTriggerEl) => {
       return new bootstrap.Tooltip(tooltipTriggerEl)
   });
+
+  /**
+   * Botão remover
+   */
+  $( '.rem-btn' ).click( ev => {
+      return alert( `Você confirma a remoção da ave "${ev.target.data('ave-nome')}"?` );
+  } )
 
   
 </script>

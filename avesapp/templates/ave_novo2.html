@@ -9,7 +9,7 @@ Lista de Aves
 
 
 {% block content %}
-<form method="post" enctype="multipart/form-data">
+<form method="post">
   <h3 class="mb-3">Classificação</h3>
   
   {{ render_field( form.ave_id ) }}
@@ -63,7 +63,7 @@ Lista de Aves
   const familia = $( '#familia' );
 
   const familia_load = () => {
-      $.getJSON( `api/familias?ordem=${ordem.val()}`, familias => {
+      $.getJSON( `{{ url_for( 'aves.ave_familias' )}}?ordem=${ordem.val()}`, familias => {      
 	  familia.find( 'option' ).remove();
 	  
 	  familias.forEach( fm => {
@@ -74,15 +74,25 @@ Lista de Aves
   
   ordem.change( familia_load );
 
+  {% if edit_form %}
+  const cur_ordem = {{ form.ordem.data }};
+  const cur_fami = {{ form.familia.data }};
+  {% endif %}
+
   /** Atualiza lista de ordens. */
   $( document ).ready( () => {
-      $.getJSON( 'api/ordens', ordens => {
+      $.getJSON( "{{ url_for( 'aves.ave_ordens' ) }}", ordens => {
 	  ordem.find( 'option' ).remove();
 	  ordens.forEach( od => {
 	      ordem.append( `<option value="${od.id}">${od.nome}</option>` );
 	  });
 
 	  familia_load();
+
+	  {% if edit_form %}
+	  ordem.val( cur_ordem );
+	  familia.val( cur_fami );
+	  {% endif %}
       });
   });
 

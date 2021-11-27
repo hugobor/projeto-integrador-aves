@@ -5,7 +5,6 @@ from wtforms import Form, StringField, validators, HiddenField, SelectField, Int
 import copy
 
 
-
 from avesapp.db import get_db, query_db, dict_from_row, dict_from_query
 
 from . import build_media_path
@@ -93,10 +92,11 @@ def ave_novo():
     if request.method == 'POST':
         ave_t = query_db( 'select * from ave where especie=?;', ( form.nome_cientifico.data, ), fetchone=True)
         if not ave_t is None:
-            return abort( 403, f"Ave {form.nome_cientifico} já cadastrada." )
+            flash( f"Ave \"{form.nome_cientifico.data}\" já cadastrada.", "error" )
+            return redirect( url_for( 'aves.ave_novo' ))
 
         a = {
-            'familia': form.familia.data,
+            'familia_id': form.familia.data,
             'especie': form.nome_cientifico.data,
             'autor': form.autor.data,
             'nome_popular': form.nome_popular.data,
@@ -104,17 +104,19 @@ def ave_novo():
             'estado_iucn': form.conserv_int.data,
             'estado_iucn_sp': form.conserv_loc.data,
             'frequencia_ocorrencia': form.frequencia_ocorrencia.data,
+            'abundancia_relativa': form.abundancia_relativa.data,            
             'thumbnail': '',
             'descricao': '',
         }
 
-        return jsonify( a )
+        query_db( "insert into ave ( familia_id, especie, autor, nome_popular, nome_ingles, estado_iucn, estado_iucn_sp, frequencia_ocorrencia, abundancia_relativa ) values ( ?, ?, ?, ?, ?, ?, ?, ?, ? );", (a['familia_id'], a['especie'], a['autor'], a['nome_popular'], a['nome_ingles'], a['estado_iucn'], a['estado_iucn_sp'], a['frequencia_ocorrencia'], a['abundancia_relativa'] ))
+        get_db().commit()
+
+        flash( f"Ave \"{a['especie']}\" cadastrada com sucesso.", 'success' )
+                  
+
+        return redirect( url_for( 'aves.aves_index' ))
             
-
-
-
-
-
     
     return render_template( 'ave_novo2.html', form=form )
 
@@ -127,6 +129,7 @@ def ave_edit( ave_id ):
 
     if ave_row is None:
         return abort( 404, f"Ave id {ave_id} não cadastrada." )
+
     
     form = AveForm( request.form )
     estados_iucn = query_db( 'select cod, nome_pt, nome_en from estado_iucn order by rowid;' )
@@ -148,6 +151,7 @@ def ave_edit( ave_id ):
     form.ave_id.data = ave_row[ 'id' ]
     form.nome_cientifico.data = ave_row[ 'especie' ]
 
+
     if request.method == 'GET':
         if ave_row[ 'autor' ]:
             form.autor.data = ave_row[ 'autor' ]
@@ -168,12 +172,6 @@ def ave_edit( ave_id ):
                 form.familia.choices = [ (f[ 'id' ], f[ 'nome' ]) for f in familias ]
                 form.familia.data = familia[ 'id' ]
                 form.ordem.data = familia[ 'ordem_id' ]
-                
-                print( familia[ 'id' ] )
-
-
-
-
 
         if not conserv_int is None:
             form.conserv_int.data = conserv_int[ 'cod' ]
@@ -187,62 +185,52 @@ def ave_edit( ave_id ):
         if ave_row[ 'abundancia_relativa' ]:
             form.abundancia_relativa.data = ave_row[ 'abundancia_relativa' ]
         
-    
-    
     if request.method == 'POST':
-        return 'POST'
-    
+        a = {
+            'id': form.ave_id.data,
+            'familia_id': form.familia.data,
+            'especie': form.nome_cientifico.data,
+            'autor': form.autor.data,
+            'nome_popular': form.nome_popular.data,
+            'nome_ingles': form.nome_ingles.data,
+            'estado_iucn': form.conserv_int.data,
+            'estado_iucn_sp': form.conserv_loc.data,
+            'frequencia_ocorrencia': form.frequencia_ocorrencia.data,
+            'abundancia_relativa': form.abundancia_relativa.data,            
+            'thumbnail': '',
+            'descricao': '',
+        }
 
+        ave_t = query_db( 'select * from ave where especie=?;', ( a['especie'], ), fetchone=True )
 
-    return render_template( 'ave_novo2.html', form=form )
-    
-
-
-# @avesbp.route( '/novo', methods=( 'GET', 'POST' ))
-# def ave_novo():
-    
-#     if request.method == 'POST':
-
-#         form = request.form
-
-#         nome_cientifico = form.get( 'nome-cientifico' )
-
-#         if not query_db( 'select * from ave where especie=?', ( nome_cientifico ,)) is None:
-#             flash( f"Espécie {nome_cientifico} já cadastrada." )
+        if ave_t is None:
+            flash( f"Ave \"{a['especie']}\" já existe", "error" )
         
-#         if nome_cientifico is None:
-#             flash( 'Nome Científico nescessário.' )
+        
+        query_db( """
+update ave
+    set familia_id=?,
+        especie=?,
+        autor=?,
+        nome_popular=?,
+        nome_ingles=?,
+        estado_iucn=?,
+        estado_iucn_sp=?,
+        frequencia_ocorrencia=?,
+        abundancia_relativa=?
+    where id=?;""",
+                  ( a['familia_id'], a['especie'], a['autor'], a['nome_popular'], a['nome_ingles'], a['estado_iucn'], a['estado_iucn_sp'], a['frequencia_ocorrencia'], a['abundancia_relativa'], a['id'] ))
+        
+        get_db().commit()
 
-            
-#         familia_text = form.get( 'familia' )
-#         if familia_text == '':
-#             familia_id = None
-#         else:
-#             familia_row = query_db(
-#                 'select * from familia where nome=? limit 1;', ( familia_text, ), fetchone=True )
-#             if familia_row is None:
-#                 query_db( 'insert into familia ( nome ) values ( ? );', ( familia_text, ))
-#                 familia_row = query_db(
-#                     'select * from familia where nome=? limit 1;', ( familia_text, ), fetchone=True )            
-#             familia_id = familia_row[ 'id' ]
-            
-#         db = get_db()
-#         db.execute(
-#             'insert into ave ( familia_id, especie, autor, nome_popular, nome_ingles, estado_iucn, estado_iucn_sp, frequencia_ocorrencia, abundancia_relativa ) values'
-#             '    ( ?, ?, ?, ?, ?, ?, ?, ?, ? );',
-#             ( familia_id, form.get( 'nome-cientifico' ), form.get( 'autor' ), form.get( 'nome-popular' ), form.get( 'nome-ingles' ),
-#               form.get( 'estado-iunc' ), form.get( 'estado-iunc-sp' ),
-#               form.get( 'frequencia-ocorrencia' ), form.get( 'abundancia-relativa' )))
-#         db.commit()
-#         return redirect( url_for( 'aves.aves_index' ))
+        flash( f"Ave \"{a['especie']}\" alterada com sucesso.", "success" )        
+        
+        return redirect( url_for( 'aves.aves_index' ))
 
 
-#     familias = query_db( 'select * from familia;' )
+    return render_template( 'ave_novo2.html', form=form, edit_form=True )
     
-#     estado_iucn = query_db(
-#         'select * from estado_iucn order by rowid;' )    
 
-#     return render_template( 'ave_novo.html', familias=familias, estado_iucn=estado_iucn )
 
 
 
@@ -253,8 +241,19 @@ def ave_edit( ave_id ):
 
 @avesbp.route( '/remove/<int:ave_id>', methods=( 'GET', 'POST' ) )
 def ave_remove( ave_id ):
-    ave_row = query_db( 'select * from ave where id=?;', ( ave_id, ), fetchone=True )    
-    return dict_from_row( ave_row )
+    ave_row = query_db( 'select * from ave where id=?;', ( ave_id, ), fetchone=True )
+    if ave_row is None:
+        abort( 404, f"Ave id \"{ave_id}\" não cadastrada." )
+
+    esp = ave_row['especie']
+    query_db( "delete from ave where id=?;", ( ave_id, ))
+    get_db().commit()
+
+
+    flash( f"Ave \"{esp}\" removida.", "success" )
+    return redirect( url_for( 'aves.aves_index' ))
+
+
 
 
 
