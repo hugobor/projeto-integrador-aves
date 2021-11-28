@@ -1,1 +1,1 @@
-gunicorn "avesapp:create_app()"
+web: gunicorn "avesapp:create_app()"
