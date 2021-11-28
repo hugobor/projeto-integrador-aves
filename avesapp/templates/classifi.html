@@ -10,11 +10,183 @@ Lista de Aves
 
 {% block content %}
 <form method="post">
-  {{ render_field( form.ordem_id ) }}
-  {{ render_field( form.ordem ) }}
 
-  {{ render_field( form.familia_id ) }}  
-  {{ render_field( form.familia ) }}  
+      <!-- https://stackoverflow.com/questions/35049611/is-there-a-way-to-create-a-datalist-field-in-flask-wtforms -->
+      {{ render_field( form.ordem, list="ordem-datalist" ) }}
+      <datalist id="ordem-datalist">
+	{% for ordem in ordens %}
+	<option value="{{ ordem['nome'] }}">
+	  {% endfor %}
+      </datalist>
+
+      <fieldset class="form-group mb-3">
+	<input id="ordem-nova" type="submit" class="btn btn-primary" value="Nova" style="display: none" formaction="{{ url_for( 'aves.ordem_nova' ) }}"></input>
+	<input id="ordem-remove" type="submit" class="btn btn-danger" value="Remover" style="display: none" formaction="{{ url_for( 'aves.ordem_remove' ) }}"></input>
+      </fieldset>
+      
+
+      {{ render_field( form.familia, list="familia-datalist" ) }}
+      <datalist id="familia-datalist">
+	{% for familia in familias %}
+	<option value="{{ familia['nome'] }}">
+	  {% endfor %}
+      </datalist>
+      <fieldset class="form-group mb-3">
+	<input id="familia-nova" type="submit" class="btn btn-primary" value="Nova" style="display: none" formaction="{{ url_for( 'aves.familia_nova' ) }}"></input>
+	<input id="familia-remove" type="submit" class="btn btn-danger" value="Remover" style="display: none" formaction="{{ url_for( 'aves.familia_remove' ) }}"></input>	
+	<input id="troca-parente" type="submit" class="btn btn-warning" value="Troca Parente" style="display: none" formaction="{{ url_for( 'aves.muda_parente' ) }}"></input>
+	<input id="ambos-novo" type="submit" class="btn btn-primary" value="Inserir Ambos" style="display: none" formaction="{{ url_for( 'aves.ambos' ) }}"></input>
+      </fieldset>      	
+      </fieldset>
+
+      <fieldset class="form-group mb-3">
+      </fieldset>      
+      
+
+
 </form>
 
+{% endblock %}
+
+
+{% block end_body_script %}
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<script>
+  ( () => {
+      'use strict';
+      
+      let familias;
+      let ordens;
+      let familia_nomes;
+      let ordem_nomes;
+
+      //campos
+      const ordem = $( '#ordem' )
+      const familia = $( '#familia' )
+      
+      const ordem_nova = $( '#ordem-nova' )
+      const ordem_remove = $( '#ordem-remove' )
+
+      const familia_nova = $( '#familia-nova' )
+      const familia_remove = $( '#familia-remove' )
+      const familia_troca_parente = $( '#troca-parente' )
+
+      const ambos_novo = $( '#ambos-novo' )
+
+      
+      $( document ).ready( () => {
+	  $( ':submit' ).hide();
+	  
+
+	  const familias_req = $.getJSON( `{{ url_for( 'aves.ave_familias' ) }}`, res => familias = res );
+	  const ordens_req = $.getJSON( `{{ url_for( 'aves.ave_ordens' ) }}`, res => ordens = res );
+	  
+
+	  $.when( familias_req, ordens_req ).done( () => {
+
+	      ordem_nomes = ordens.map( o => o.nome );
+	      familia_nomes = familias.map( f => f.nome );	      
+	  
+
+	      function ordem_updt() {
+		  ordem.val( ordem.val().trim() );
+		  
+		  if ( ordem_nomes.includes( ordem.val() ) ) {
+		      ordem_remove.show();
+		      ordem_nova.hide();
+
+		      if ( familia_nomes.includes( familia.val() )) {
+			  const o_nome = ordem.val()
+			  const f_nome = familia.val()
+			  
+			  const od = ordens.find( o => o.nome === o_nome );
+			  const fd = familias.find( f => f.nome === f_nome );
+
+			  
+			  if ( fd.ordem_id !== od.id ) {
+			      familia_troca_parente.show();
+			  } else {
+			      familia_troca_parente.hide();
+			  }
+		      }
+			   
+		      
+
+		  } else {
+		      ordem_remove.hide();
+		      if ( ordem.val() !== '' ) {
+			  ordem_nova.show();
+		      } else {
+			  ordem_nova.hide();
+		      }
+
+		      familia_troca_parente.hide()
+		      
+		  }
+	      }
+
+	      ordem_updt();
+	      
+	      ordem.on( 'input', ordem_updt );
+
+	      function familia_updt() {
+		  familia.val( familia.val().trim() );
+
+		  if ( familia_nomes.includes( familia.val() ) ) {
+		      familia_remove.show();
+		      familia_nova.hide();
+		  } else {
+		      familia_remove.hide();
+		      if ( familia.val() !== '' ) {
+			  familia_nova.show();
+		      } else {
+			  familia_nova.hide();
+		      }
+		  }
+
+		  if ( ordem_nomes.includes( ordem.val() ) &&  familia_nomes.includes( familia.val() ) ) {
+		      const o_nome = ordem.val()
+		      const f_nome = familia.val()
+		      
+		      const od = ordens.find( o => o.nome === o_nome );
+		      const fd = familias.find( f => f.nome === f_nome );
+
+		      console.log( od );
+		      console.log( fd );
+		      
+		      
+		      if ( fd.ordem_id !== od.id ) {
+			  familia_troca_parente.show();
+		      } else {
+			  familia_troca_parente.hide();
+		      }
+		      
+		  }
+
+		  if ( !ordem_nomes.includes( ordem.val() ) &&  !familia_nomes.includes( familia.val() ) &&
+		       ordem.val() != '' && familia.val() != '' ) {
+		      ambos_novo.show();
+		  } else {
+		      ambos_novo.hide();
+		  }
+	      }
+
+	      familia_updt();
+
+	      familia.on( 'input', familia_updt );
+	      ordem.on( 'input', familia_updt );
+	      familia.on( 'input', ordem_updt );
+
+	      ordem_updt();
+	  });
+	      
+
+
+      });
+      
+  })();
+  
+</script>
 {% endblock %}

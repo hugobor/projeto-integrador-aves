@@ -22,8 +22,10 @@
       <section class="card-body">
 	
 	<h2 class="card-title">{{ ave_class[ 'nome_cientifico' ] }}</h2>
+	{% if ave[ 'autor' ] and ave[ 'autor' ].split() != '' %}
 	<h5 class="card-subtitle text-muted"><em>{{ ave_class[ 'autor' ] }}</em></h5>
-
+	{% endif %}
+	
 	{% if ave_class[ 'nome_popular' ] %}
 	<hr>
 
@@ -55,11 +57,13 @@
 	      <td>{{ ave_class[ 'familia' ] }}</td>
 	    </tr>	
 
+	    {% if ave_class[ 'subfamilia' ] and ave_class[ 'subfamilia' ].strip() != '' %}
 	    <tr>
 	      <th scope="row">Subfamília:</th>
 	      
 	      <td>{{ ave_class[ 'subfamilia' ] }}</td>
 	    </tr>
+	    {% endif %}
 
 	    <tr>
 	      <th scope="row">Espécie:</th>
@@ -76,17 +80,66 @@
 
 </article>
 
-{% for descr in ave_descrs %}
-<article class="card my-3 p-3">
-  <div class="card-body">
-    <h2 class="card-title">{{ descr[ 'titulo' ] }}</h2>
+<section class="row">
+  {% if estado %}
+  <article class="my-3 p-3 col-lg-6">
+    <div class="card-body">
+      <h2 class="card-title">Estado de Conservação Internacional</h2>
 
-    <p>{{ descr[ 'conteudo' ] }}</p>
+      <figure class="figure">
+	<img class="figure-img img-fluid mw-50 mh-50" src="{{ estado[ 'img' ] }}" alt="{{ estado[ 'nome_pt' ] }}">
+	<figcaption class="figure-caption">{{ estado[ 'nome_pt' ] }}</figcaption>
+      </figure>
+      
+    </div>
+
+  </article>
+  {% endif %}
+
+
+  {% if estado_loc %}
+  <article class="my-3 p-3 col-lg-6">
+    <div class="card-body">
+      <h2 class="card-title">Estado de Conservação em São Paulo</h2>
+
+      <figure class="figure">
+	<img class="figure-img img-fluid mw-50 mh-50" src="{{ estado_loc[ 'img' ] }}" alt="{{ estado_loc[ 'nome_pt' ] }}">
+	<figcaption class="figure-caption">{{ estado_loc[ 'nome_pt' ] }}</figcaption>
+      </figure>
+      
+    </div>
+
+  </article>
+  {% endif %}
+
+</section>
+
+
+
+
+
+{% if ave['descricao'] and ave['descricao'].strip() != '' %}
+<section class="card my-3 p-3">
+  <div class="card-body">
+    <h2 class="card-title">Descrição</h2>
+
+    <p>{{ ave['descricao'] }}</p>
     
   </div>
 
-</article>
-{% endfor %}
+</section>
+{% endif %}
+
+<section class="d-flex flex-row-reverse">
+  <div class="btn-group">
+    <a class="btn btn-warning" role="button" alt="Editar" data-bs-toggle="tooltip" data-bs-original-title="Editar" href="{{ url_for( 'aves.ave_edit', ave_id=ave[ 'id' ] ) }}">
+      Editar <i class="bi bi-pencil"></i>
+    </a>
+    <a class="btn btn-danger rem-btn" data-ave-nome="{{ ave['especie'] }}" role="button" alt="Remover" data-bs-toggle="tooltip" data-bs-original-title="Remover" href="{{ url_for( 'aves.ave_remove', ave_id=ave[ 'id' ] ) }}">
+      Remover <i class="bi bi-trash"></i>		
+    </a>
+  </div>  
+</secton>
 
 
 

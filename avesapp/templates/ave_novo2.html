@@ -9,7 +9,7 @@ Lista de Aves
 
 
 {% block content %}
-<form method="post">
+<form method="post" enctype="multipart/form-data">
   <h3 class="mb-3">Classificação</h3>
   
   {{ render_field( form.ave_id ) }}
@@ -25,10 +25,22 @@ Lista de Aves
   {{ render_field( form.familia_id ) }}
   {{ render_field( form.familia ) }}
 
-  <!--
   <hr>
-  <h3 class="mb-3">Mídia</h3>  
-  {{ render_field( form.foto_capa ) }}
+
+  <h3 class="mb-3">Foto de Capa</h3>  
+  {{ render_field( form.thumbnail, accept="image/*" ) }}
+
+  {% if edit_form and thumb %}
+  <figure class="figure">
+    <img src="{{ thumb }}" class="figure-img img-fluid w-25">
+    <figcaption class="figure-caption">Foto atual</figcaption>
+  </figure>
+  {% endif %}
+  
+  
+  
+
+  <!--
   {{ render_field( form.midia_extra ) }}
   -->
   
@@ -43,6 +55,9 @@ Lista de Aves
 
   {{ render_field( form.frequencia_ocorrencia ) }}
   {{ render_field( form.abundancia_relativa ) }}
+
+  <hr>
+  {{ render_field( form.descricao ) }}
 
   <fieldset class="d-flex justify-content-end">
       <button class="btn btn-primary" type="submit">Salvar <i class="bi bi-save2"></i></button>
@@ -62,39 +77,71 @@ Lista de Aves
   const ordem = $( '#ordem' );
   const familia = $( '#familia' );
 
-  const familia_load = () => {
-      $.getJSON( `{{ url_for( 'aves.ave_familias' )}}?ordem=${ordem.val()}`, familias => {      
-	  familia.find( 'option' ).remove();
-	  
-	  familias.forEach( fm => {
-	      familia.append( `<option value="${fm.id}">${fm.nome}</option>` );
-	  });
-      });	  
-  };
-  
-  ordem.change( familia_load );
+  let familiarequ;
+  let familia_load;
 
+  
   {% if edit_form %}
   const cur_ordem = {{ form.ordem.data }};
   const cur_fami = {{ form.familia.data }};
   {% endif %}
 
+  let ordemrequ;
   /** Atualiza lista de ordens. */
   $( document ).ready( () => {
-      $.getJSON( "{{ url_for( 'aves.ave_ordens' ) }}", ordens => {
+
+      const familias_req = $.getJSON( `{{ url_for( 'aves.ave_familias' ) }}`, res => familias = res );
+      const ordens_req = $.getJSON( `{{ url_for( 'aves.ave_ordens' ) }}`, res => ordens = res );
+
+
+      $.when( familias_req, ordens_req ).done( () => {
 	  ordem.find( 'option' ).remove();
 	  ordens.forEach( od => {
 	      ordem.append( `<option value="${od.id}">${od.nome}</option>` );
 	  });
 
-	  familia_load();
+	  familia_load = () => {
+	      const ordem_id = ordem.val();
+	      
+	      const fams = familias.filter( f => (f.ordem_id == ordem_id ));
+	      
+
+	      familia.find( 'option' ).remove();
+	      
+	      fams.forEach( f => {
+		  familia.append( `<option value="${f.id}">${f.nome}</option>` );		  
+	      });
+	      
+
+	  };
+	      
+
+	  ordem.change( familia_load );
+
 
 	  {% if edit_form %}
 	  ordem.val( cur_ordem );
 	  familia.val( cur_fami );
 	  {% endif %}
+	  familia_load();
+	  {% if edit_form %}
+	  ordem.val( cur_ordem );
+	  familia.val( cur_fami );
+	  {% endif %}	  
+
       });
   });
+  
+  $( 'form' ).submit( () => {
+      $( 'input:text' ).each( function() {
+	  $( this ).val( $( this ).val().trim() );
+      });
+  });
+
+  
+
+  
+  
 
 
   

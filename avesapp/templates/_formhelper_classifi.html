@@ -1,0 +1,32 @@
+{% macro render_field( field ) %}
+
+<fieldset class="form-group mb-3">
+  <div class="row">
+    
+    <div class="col-md-2">
+      {% if field.type != 'HiddenField' %}
+        {{ field.label( class="form-label" ) }}      
+      {% endif %}
+    </div>
+
+    <div class="col-md-10">
+      {% if field.type != 'SelectField' %}
+        {{ field( class="form-control", **kwargs)|safe }}
+      {% else %}
+        {{ field( class="form-select", **kwargs)|safe }}
+      {% endif %}
+    </div>
+  
+    {% if field.errors %}
+    <ul class=errors>
+      {% for error in field.errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+  </div>
+
+</fieldset>
+
+{% endmacro %}
