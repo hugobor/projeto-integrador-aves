@@ -1,1 +1,1 @@
-web: gunicorn "avesapp:create_app()"
+web: flask init-db; gunicorn "avesapp:create_app()"
