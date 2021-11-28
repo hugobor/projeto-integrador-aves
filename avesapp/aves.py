@@ -170,24 +170,27 @@ def ave_edit( ave_id ):
 
     descrs = query_db( 'select * from ave_descr where ave_id=?;', ( ave_id, ), fetchone=True )
 
-    familia = query_db( 'select * from familia where id=?;', ( ave_row[ 'familia_id'], ), fetchone=True )    
-    ordem = query_db( 'select * from ordem where id=?;', ( familia[ 'ordem_id' ], ), fetchone=True )
+    familia = query_db( 'select * from familia where id=?;', ( ave_row[ 'familia_id'], ), fetchone=True )
+    ordem = None
+    if familia:
+        ordem = query_db( 'select * from ordem where id=?;', ( familia[ 'ordem_id' ], ), fetchone=True )
 
     conserv_int = query_db( 'select * from estado_iucn where cod=?;', ( ave_row[ 'estado_iucn' ], ), fetchone=True )
     conserv_loc = query_db( 'select * from estado_iucn where cod=?;', ( ave_row[ 'estado_iucn_sp' ], ), fetchone=True )    
 
-    form.ave_id.data = ave_row[ 'id' ]
-    form.nome_cientifico.data = ave_row[ 'especie' ]
-
-    form.descricao.data = ave_row['descricao']
-
 
     if request.method == 'GET':
-        if ave_row[ 'autor' ]:
+        form.ave_id.data = ave_row[ 'id' ]
+        form.nome_cientifico.data = ave_row[ 'especie' ]
+
+        if ave_row['descricao'] and ave_row['descricao'].strip() != '':
+            form.descricao.data = ave_row['descricao']
+
+        if ave_row[ 'autor' ] and ave_row['autor'].strip != '':
             form.autor.data = ave_row[ 'autor' ]
-        if ave_row[ 'nome_popular' ]:        
+        if ave_row[ 'nome_popular' ] and ave_row['nome_popular'].strip() != '':        
             form.nome_popular.data = ave_row[ 'nome_popular' ]
-        if ave_row[ 'nome_ingles' ]:            
+        if ave_row[ 'nome_ingles' ] and ave_row['nome_ingles'].strip() != '':            
             form.nome_ingles.data = ave_row[ 'nome_ingles' ]
 
         ordens = query_db( 'select * from ordem;' )
@@ -246,8 +249,9 @@ def ave_edit( ave_id ):
 
         ave_t = query_db( 'select * from ave where especie=?;', ( a['especie'], ), fetchone=True )
 
-        if ave_t is None:
-            flash( f"Ave \"{a['especie']}\" já existe", "error" )
+        if (not (ave_t is None)) and (int( ave_t['id'] ) != int( a['id'])):
+            flash( f"Ave \"{a['especie']}\" já existe.", "error" )
+            return redirect( url_for( 'aves.aves_index' ))
         
         
         query_db( """
